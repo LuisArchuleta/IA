@@ -1,41 +1,79 @@
 package Arbol_binario;
-class Arbol {
-    Nodo raiz;
+public class Arbol {
+    private Nodo raiz;
 
-    // Insertar un valor en el ABB
-    Nodo insertar(Nodo raiz, int valor) {
+    public Arbol() {
+        this.raiz = null;
+    }
+
+    // Método vacio
+    public boolean vacio() {
+        return raiz == null;
+    }
+
+    public void insertar(int valor) {
+        Nodo nuevo = new Nodo(valor);
+
         if (raiz == null) {
-            return new Nodo(valor);
+            raiz = nuevo;
+            return;
         }
-        if (valor < raiz.valor) {
-            raiz.izq = insertar(raiz.izq, valor);
+
+        Nodo actual = raiz;
+        Nodo padre = null;
+
+        while (actual != null) {
+            padre = actual;
+            if (valor < actual.valor) {
+                actual = actual.izquierda;
+            } else if (valor > actual.valor) {
+                actual = actual.derecha;
+            } else {
+                return;
+            }
+        }
+
+        if (valor < padre.valor) {
+            padre.izquierda = nuevo;
         } else {
-            raiz.der = insertar(raiz.der, valor);
+            padre.derecha = nuevo;
         }
-        return raiz;
     }
 
-    // Recorrido In-Order (izquierda - raíz - derecha)
-    public void ImprimirArbol(Nodo raiz) {
-        if (raiz != null) {
-            ImprimirArbol(raiz.izq);
-            System.out.print(raiz.valor + " ");
-            ImprimirArbol(raiz.der);
+
+    public Nodo buscarNodo(int valor) {
+        Nodo actual = raiz;
+        while (actual != null) {
+            if (valor == actual.valor) {
+                return actual;
+            } else if (valor < actual.valor) {
+                actual = actual.izquierda;
+            } else {
+                actual = actual.derecha;
+            }
         }
+        return null; // no encontrado
     }
 
-    public void buscarNodo(Nodo raiz, int valor){
-        if(raiz != null){
-            if(raiz.valor == valor){
-                System.out.println("El nodo con valor " + valor + " ha sido encontrado.");
-            }
-            if(valor < raiz.valor){
-                buscarNodo(raiz.izq, valor);
-            }else {
-                buscarNodo(raiz.der, valor);
-            }
-        } else {
-            System.out.println("El nodo con valor " + valor + " no existe en el árbol.");
+    // Método imprimirArbol (inOrden sin recursión)
+    public void imprimirArbol() {
+        if (raiz == null) {
+            System.out.println("Árbol vacío");
+            return;
         }
+
+        java.util.Stack<Nodo> pila = new java.util.Stack<>();
+        Nodo actual = raiz;
+
+        while (actual != null || !pila.isEmpty()) {
+            while (actual != null) {
+                pila.push(actual);
+                actual = actual.izquierda;
+            }
+            actual = pila.pop();
+            System.out.print(actual.valor + " ");
+            actual = actual.derecha;
+        }
+        System.out.println();
     }
 }

@@ -2,10 +2,11 @@ package Arbol_binario;
 
 public class Nodo {
     int valor;
-    Nodo izq, der;
+    Nodo izquierda, derecha;
 
     public Nodo(int valor) {
         this.valor = valor;
-        izq = der = null;
+        this.izquierda = null;
+        this.derecha = null;
     }
 }

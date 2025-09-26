@@ -19,7 +19,7 @@ public class App {
                             "2-Busqueda en profundidad"+"\n"+
                             "3.-Busqueda Costo Uniforme"+"\n"+
                             "4.-Heuristica Fichas mal colocadas"+"\n"+
-                            "5.-Tabla comparativa (3 metodos juntos)");
+                            "5.-Tabla comparativa (4 metodos juntos)");
          int opcion=leer.nextInt();
          switch (opcion) {
             case 1:

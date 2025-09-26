@@ -1,15 +1,19 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Nodo {
+public class Nodo implements Comparable<Nodo> {//interfaz Comparable para que los nodos puedan comparar su prioridad para el costo uniforme
     String estado;
     Nodo padre;
     int costo;
     int profundidad;
+
+    int heuristico; //valor de h(n)
+    int f; //valor de f (n)= costo + heuristico
     
 
     public Nodo(String estado){
         this.estado=estado;
+        this.f=0;
     }
 
     public static List<String> obtenerSucesores(Nodo nodo) {
@@ -72,6 +76,17 @@ public class Nodo {
         }
         return successors;
     }
+
+    public void calcularHeuristica(String estadoObjetivo) {
+        this.heuristico = 0;
+        // Se recorre estadoObjetivo
+        for (int i = 0; i < this.estado.length(); i++) {
+            // Ignorar el espacio en blanco, ya que su posición no se cuenta como ficha mal colocada.
+            if (this.estado.charAt(i) != ' ' && this.estado.charAt(i) != estadoObjetivo.charAt(i)) {
+                this.heuristico++;
+            }
+        }
+    }
     
     public Nodo getPadre() {
         return padre;
@@ -81,4 +96,11 @@ public class Nodo {
         this.padre = padre;
     }
 
+     public int compareTo(Nodo otro) {
+        return this.costo - otro.costo; // menor costo primero
+    }
+
+    public int compareToFMC(Nodo otro) {
+        return this.f - otro.f; // Menor costo primero para heuristica FMC
+    }
 }
